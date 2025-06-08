@@ -33,7 +33,8 @@ class ZipBenchmark {
             { name: 'yazl', module: 'yazl', supports: ['create'] },
             { name: 'node-stream-zip', module: 'node-stream-zip', supports: ['extract'] },
             { name: 'jszip', module: 'jszip', supports: ['create', 'extract'] },
-            { name: 'fflate', module: 'fflate', supports: ['create', 'extract'] }
+            { name: 'fflate', module: 'fflate', supports: ['create', 'extract'] },
+            { name: 'uzip', module: 'uzip', supports: ['create', 'extract'] }
         ];
 
         for (const config of libraryConfigs) {
@@ -179,6 +180,13 @@ class ZipBenchmark {
                 });
                 break;
                 
+            case 'uzip':
+                time = await this.measureTime(async () => {
+                    const zipData = library.module.encode({ [`test-${dataSize}.txt`]: data });
+                    await fs.writeFile(outputPath, Buffer.from(zipData));
+                });
+                break;
+                
             default:
                 throw new Error(`Create operation not implemented for ${libraryName}`);
         }
@@ -290,6 +298,22 @@ class ZipBenchmark {
                             });
                         });
                     });
+                });
+                break;
+                
+            case 'uzip':
+                time = await this.measureTime(async () => {
+                    const zipData = await fs.readFile(zipPath);
+                    const unzipped = library.module.parse(zipData);
+                    
+                    // Write extracted files to temp directory
+                    const tempDir = path.join(__dirname, '..', 'test-data', 'temp', `uzip-${Date.now()}`);
+                    await fs.mkdir(tempDir, { recursive: true });
+                    
+                    for (const [filename, fileData] of Object.entries(unzipped)) {
+                        const filePath = path.join(tempDir, filename);
+                        await fs.writeFile(filePath, Buffer.from(fileData));
+                    }
                 });
                 break;
                 
