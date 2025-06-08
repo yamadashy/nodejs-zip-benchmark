@@ -50,7 +50,7 @@ test-data/*.txt
 
 # Benchmark results (keep structure but ignore timestamped files)
 results/benchmark-*.json
-results/*-backup-*.md
+results/readme-backup-*.md
 
 # Logs
 logs

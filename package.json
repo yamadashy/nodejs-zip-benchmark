@@ -7,8 +7,7 @@
     "benchmark": "node benchmark/index.js",
     "test": "node benchmark/index.js --iterations=3",
     "generate-report": "node scripts/generate-report.js",
-    "compare-performance": "node scripts/compare-performance.js",
-    "update-readme": "node scripts/update-readme.js"
+    "compare-performance": "node scripts/compare-performance.js"
   },
   "dependencies": {
     "adm-zip": "^0.5.10",

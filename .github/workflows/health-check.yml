@@ -44,10 +44,6 @@ jobs:
           MISSING_FILES+=("scripts/generate-report.js")
         fi
         
-        if [ ! -f scripts/update-readme.js ]; then
-          MISSING_FILES+=("scripts/update-readme.js")
-        fi
-        
         if [ ${#MISSING_FILES[@]} -gt 0 ]; then
           echo "missing_files=${MISSING_FILES[*]}" >> $GITHUB_OUTPUT
           echo "health_status=unhealthy" >> $GITHUB_OUTPUT

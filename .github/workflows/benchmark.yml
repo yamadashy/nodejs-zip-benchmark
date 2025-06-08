@@ -253,56 +253,6 @@ jobs:
             body: comment
           });
 
-  update-readme:
-    needs: generate-report
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
-    
-    steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
-      with:
-        token: ${{ secrets.GITHUB_TOKEN }}
-        
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '20'
-        cache: 'npm'
-        
-    - name: Install dependencies
-      run: npm ci
-      
-    - name: Download consolidated results
-      uses: actions/download-artifact@v4
-      with:
-        name: consolidated-benchmark-results
-        path: results/
-        
-    - name: Update README with latest results
-      run: |
-        echo "Updating README with latest results..."
-        if [ -f scripts/update-readme.js ]; then
-          node scripts/update-readme.js
-          echo "✓ README update completed"
-        else
-          echo "Error: README updater script not found"
-          exit 1
-        fi
-        
-    - name: Commit and push README updates
-      run: |
-        git config --local user.email "action@github.com"
-        git config --local user.name "GitHub Action"
-        
-        if [ -n "$(git status --porcelain)" ]; then
-          git add README.md results/
-          git commit -m "Update benchmark results [skip ci]"
-          git push
-        else
-          echo "No changes to commit"
-        fi
-
   archive-results:
     needs: generate-report
     runs-on: ubuntu-latest
