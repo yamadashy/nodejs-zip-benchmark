@@ -25,7 +25,7 @@ This project benchmarks various Node.js libraries for creating and extracting ZI
 | **yazl** | ✅ | ❌ | Focused on creation with streaming support |
 | **node-stream-zip** | ❌ | ✅ | Memory-efficient streaming ZIP reader |
 | **jszip** | ✅ | ✅ | Popular library with browser compatibility |
-| **fflate** | ✅ | ✅ | High-performance compression library |
+| **fflate** | ✅ | ✅ | High-performance compression library with modern optimizations |
 
 ## Test Methodology
 
@@ -34,12 +34,20 @@ This project benchmarks various Node.js libraries for creating and extracting ZI
 - **Iterations**: 5 runs per test for statistical accuracy
 - **Metrics**: Average execution time, minimum/maximum times, memory usage
 - **Environment**: Clean Node.js environment with garbage collection
+- **Fair comparison**: All libraries use async operations and perform actual file I/O
+
+### Recent Improvements
+
+- **v1.1.0 (June 2025)**: Improved fflate benchmark implementation for fairer comparison
+  - Switched from sync to async operations (`zipSync`→`zip`, `unzipSync`→`unzip`)
+  - Added actual file writing for extraction benchmarks
+  - Ensured consistent async file I/O across all libraries
 
 <!-- BENCHMARK_RESULTS_START -->
 
 ## 🏆 Latest Benchmark Results
 
-*Last updated: June 8, 2025 at 11:47 AM UTC*
+*Last updated: June 8, 2025 at 12:13 PM UTC*
 
 ### 🏆 Top Performers (Averaged across Node.js versions)
 
@@ -179,6 +187,27 @@ The project includes automated benchmarking with GitHub Actions:
 - **README updates**: Automatic updates on main branch
 - **GitHub Pages**: Results published to pages
 
+## Benchmark Accuracy
+
+This project strives for fair and accurate performance comparisons:
+
+### Methodology Standards
+
+- **Consistent operations**: All libraries perform equivalent operations (create/extract ZIP files)
+- **Async implementations**: Uses each library's recommended async patterns
+- **Real file I/O**: All operations include actual file system read/write operations
+- **Multiple iterations**: Statistical accuracy through repeated measurements
+- **Memory measurement**: Tracks heap usage changes during operations
+
+### Implementation Notes
+
+- **fflate**: Uses async `zip()` and `unzip()` functions with proper file I/O
+- **JSZip**: Uses `generateAsync()` and `loadAsync()` with buffer operations
+- **adm-zip**: Uses sync operations but wrapped in async timing measurement
+- **yauzl/yazl**: Uses streaming APIs with proper promise handling
+
+This ensures that benchmark results reflect real-world usage patterns and provide meaningful performance comparisons.
+
 ## Contributing
 
 Contributions are welcome! Here's how you can help:
@@ -222,6 +251,29 @@ Libraries are ranked by average execution time for each operation and file size.
 - Multiple iterations reduce random variation
 - Results are averaged across Node.js versions
 - Performance differences >5% are highlighted as significant
+
+### Benchmark Reliability Notes
+
+- **fflate results**: As of v1.1.0, fflate benchmarks use async operations and real file I/O for accurate comparison
+- **Memory measurements**: Simplified approach focusing on heap usage differences
+- **Cross-platform**: Results may vary between operating systems and hardware configurations
+
+## Changelog
+
+### v1.1.0 (June 8, 2025)
+- **Fixed fflate benchmark implementation** for fairer comparison
+  - Changed from sync to async operations (`zipSync`→`zip`, `unzipSync`→`unzip`)
+  - Added actual file writing for extraction benchmarks
+  - Improved async file I/O consistency across all libraries
+- **Enhanced benchmark methodology documentation**
+- **Added benchmark accuracy standards**
+
+### v1.0.0 (Initial Release)
+- Comprehensive benchmark suite for 6 popular ZIP libraries
+- Multi-Node.js version testing (18, 20, 22)
+- Automated CI/CD with GitHub Actions
+- Statistical analysis and performance rankings
+- Memory usage measurement
 
 ## License
 

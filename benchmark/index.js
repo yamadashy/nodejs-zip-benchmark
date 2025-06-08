@@ -165,9 +165,17 @@ class ZipBenchmark {
                 
             case 'fflate':
                 time = await this.measureTime(async () => {
-                    const { zipSync } = library.module;
-                    const compressed = zipSync({ [`test-${dataSize}.txt`]: data });
-                    await fs.writeFile(outputPath, compressed);
+                    return new Promise((resolve, reject) => {
+                        const { zip } = library.module;
+                        // Use async version for fair comparison
+                        zip({ [`test-${dataSize}.txt`]: data }, (err, data) => {
+                            if (err) return reject(err);
+                            require('fs').writeFile(outputPath, data, (err) => {
+                                if (err) return reject(err);
+                                resolve();
+                            });
+                        });
+                    });
                 });
                 break;
                 
@@ -251,11 +259,37 @@ class ZipBenchmark {
                 
             case 'fflate':
                 time = await this.measureTime(async () => {
-                    const { unzipSync } = library.module;
-                    const data = await fs.readFile(zipPath);
-                    const unzipped = unzipSync(data);
-                    // Process the unzipped data to ensure it's actually extracted
-                    Object.values(unzipped);
+                    return new Promise((resolve, reject) => {
+                        const { unzip } = library.module;
+                        // Read file asynchronously like other libraries
+                        require('fs').readFile(zipPath, (readErr, data) => {
+                            if (readErr) return reject(readErr);
+                            
+                            // Use async version for fair comparison
+                            unzip(data, (err, unzipped) => {
+                                if (err) return reject(err);
+                                
+                                // Actually write the extracted files to ensure real work is done
+                                const tempDir = path.join(__dirname, '..', 'test-data', 'temp', `fflate-${Date.now()}`);
+                                require('fs').mkdir(tempDir, { recursive: true }, (mkdirErr) => {
+                                    if (mkdirErr) return reject(mkdirErr);
+                                    
+                                    const writePromises = [];
+                                    for (const [filename, fileData] of Object.entries(unzipped)) {
+                                        const filePath = path.join(tempDir, filename);
+                                        writePromises.push(new Promise((resolveFile, rejectFile) => {
+                                            require('fs').writeFile(filePath, fileData, (writeErr) => {
+                                                if (writeErr) return rejectFile(writeErr);
+                                                resolveFile();
+                                            });
+                                        }));
+                                    }
+                                    
+                                    Promise.all(writePromises).then(resolve).catch(reject);
+                                });
+                            });
+                        });
+                    });
                 });
                 break;
                 

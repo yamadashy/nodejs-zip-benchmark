@@ -1,6 +1,6 @@
 {
   "name": "nodejs-zip-benchmark",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Performance benchmark comparison of Node.js ZIP libraries",
   "main": "benchmark/index.js",
   "scripts": {
