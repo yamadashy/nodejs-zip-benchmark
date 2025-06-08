@@ -19,10 +19,12 @@ permissions:
   contents: write
   pull-requests: write
   pages: write
+  id-token: write
 
 jobs:
   benchmark:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     strategy:
       matrix:
         node-version: [18, 20, 22]
@@ -39,8 +41,34 @@ jobs:
         cache: 'npm'
         
     - name: Install dependencies
-      run: npm ci
-      
+      run: |
+        # Verify package-lock.json exists
+        if [ ! -f package-lock.json ]; then
+          echo "Warning: package-lock.json not found, running npm install"
+          npm install
+        else
+          npm ci
+        fi
+        
+        # Verify critical dependencies
+        node -e "
+          const pkg = require('./package.json');
+          const requiredDeps = ['adm-zip', 'yauzl', 'yazl', 'node-stream-zip', 'jszip', 'fflate'];
+          const missing = requiredDeps.filter(dep => !pkg.dependencies[dep]);
+          if (missing.length > 0) {
+            console.error('Missing required dependencies:', missing);
+            process.exit(1);
+          }          console.log('✓ All required dependencies found');
+        "
+        
+    - name: Security audit
+      run: |
+        echo "Running security audit..."
+        npm audit --audit-level=moderate || {
+          echo "Security vulnerabilities found, but continuing with benchmark"
+          npm audit --audit-level=moderate --json > security-audit.json || true
+        }
+        
     - name: Create required directories
       run: |
         mkdir -p test-data results
@@ -48,19 +76,50 @@ jobs:
     - name: Run benchmark
       run: |
         ITERATIONS=${{ github.event.inputs.iterations || '5' }}
-        npm run benchmark -- --iterations=$ITERATIONS
+        echo "Running benchmark with $ITERATIONS iterations on Node.js ${{ matrix.node-version }}"
+        
+        # Set timeout for benchmark
+        timeout 25m npm run benchmark -- --iterations=$ITERATIONS || {
+          echo "Benchmark timed out or failed"
+          exit 1
+        }
+        
+        # Verify results were generated
+        if [ ! -f results/latest.json ]; then
+          echo "Error: Benchmark results not generated"
+          exit 1
+        fi
+        
+        echo "Benchmark completed successfully"
       env:
         NODE_ENV: production
         
     - name: Generate system info
       run: |
+        echo "=== System Information ===" > results/system-info-node${{ matrix.node-version }}.txt
+        echo "Timestamp: $(date -u)" >> results/system-info-node${{ matrix.node-version }}.txt
         echo "Node.js version: $(node --version)" >> results/system-info-node${{ matrix.node-version }}.txt
         echo "NPM version: $(npm --version)" >> results/system-info-node${{ matrix.node-version }}.txt
         echo "OS: $(uname -a)" >> results/system-info-node${{ matrix.node-version }}.txt
-        echo "CPU info:" >> results/system-info-node${{ matrix.node-version }}.txt
-        cat /proc/cpuinfo | grep "model name" | head -1 >> results/system-info-node${{ matrix.node-version }}.txt
-        echo "Memory info:" >> results/system-info-node${{ matrix.node-version }}.txt
-        cat /proc/meminfo | grep "MemTotal" >> results/system-info-node${{ matrix.node-version }}.txt
+        echo "" >> results/system-info-node${{ matrix.node-version }}.txt
+        
+        echo "=== CPU Information ===" >> results/system-info-node${{ matrix.node-version }}.txt
+        cat /proc/cpuinfo | grep -E "(model name|cpu cores|siblings)" | head -6 >> results/system-info-node${{ matrix.node-version }}.txt
+        echo "" >> results/system-info-node${{ matrix.node-version }}.txt
+        
+        echo "=== Memory Information ===" >> results/system-info-node${{ matrix.node-version }}.txt
+        cat /proc/meminfo | grep -E "(MemTotal|MemAvailable|MemFree)" >> results/system-info-node${{ matrix.node-version }}.txt
+        echo "" >> results/system-info-node${{ matrix.node-version }}.txt
+        
+        echo "=== Disk Information ===" >> results/system-info-node${{ matrix.node-version }}.txt
+        df -h / >> results/system-info-node${{ matrix.node-version }}.txt
+        echo "" >> results/system-info-node${{ matrix.node-version }}.txt
+        
+        echo "=== GitHub Actions Environment ===" >> results/system-info-node${{ matrix.node-version }}.txt
+        echo "Runner OS: ${{ runner.os }}" >> results/system-info-node${{ matrix.node-version }}.txt
+        echo "Runner Architecture: ${{ runner.arch }}" >> results/system-info-node${{ matrix.node-version }}.txt
+        echo "Workflow: ${{ github.workflow }}" >> results/system-info-node${{ matrix.node-version }}.txt
+        echo "Run ID: ${{ github.run_id }}" >> results/system-info-node${{ matrix.node-version }}.txt
         
     - name: Rename results for matrix
       run: |
@@ -76,7 +135,9 @@ jobs:
         path: |
           results/
           test-data/
+          security-audit.json
         retention-days: 30
+        if-no-files-found: warn
 
   generate-report:
     needs: benchmark
@@ -104,17 +165,38 @@ jobs:
     - name: Consolidate results
       run: |
         mkdir -p results
+        echo "Consolidating benchmark results..."
+        
         # Copy all benchmark results to results directory
-        find artifacts/ -name "*.json" -exec cp {} results/ \;
-        find artifacts/ -name "*.md" -exec cp {} results/ \;
-        find artifacts/ -name "*.txt" -exec cp {} results/ \;
+        find artifacts/ -name "*.json" -exec cp {} results/ \; 2>/dev/null || true
+        find artifacts/ -name "*.md" -exec cp {} results/ \; 2>/dev/null || true
+        find artifacts/ -name "*.txt" -exec cp {} results/ \; 2>/dev/null || true
+        
+        # List found files
+        echo "Found result files:"
+        ls -la results/ || echo "No results directory"
+        
+        # Verify we have at least one benchmark result
+        if ! ls results/benchmark-node*.json 1> /dev/null 2>&1; then
+          echo "Warning: No benchmark result files found"
+        fi
         
     - name: Generate consolidated report
       run: |
+        echo "Generating consolidated report..."
         if [ -f scripts/generate-report.js ]; then
           node scripts/generate-report.js
+          echo "✓ Report generation completed"
+          
+          # Verify report was generated
+          if [ -f results/consolidated-report.md ]; then
+            echo "✓ Consolidated report generated successfully"
+          else
+            echo "Warning: Consolidated report not generated"
+          fi
         else
-          echo "Report generator not yet implemented"
+          echo "Error: Report generator script not found"
+          exit 1
         fi
         
     - name: Compare with baseline (PR only)
@@ -199,10 +281,13 @@ jobs:
         
     - name: Update README with latest results
       run: |
+        echo "Updating README with latest results..."
         if [ -f scripts/update-readme.js ]; then
           node scripts/update-readme.js
+          echo "✓ README update completed"
         else
-          echo "README updater not yet implemented"
+          echo "Error: README updater script not found"
+          exit 1
         fi
         
     - name: Commit and push README updates
@@ -217,6 +302,57 @@ jobs:
         else
           echo "No changes to commit"
         fi
+
+  archive-results:
+    needs: generate-report
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: Download consolidated results
+      uses: actions/download-artifact@v4
+      with:
+        name: consolidated-benchmark-results
+        path: results/
+        
+    - name: Archive historical results
+      run: |
+        mkdir -p archive
+        TIMESTAMP=$(date +%Y%m%d_%H%M%S)
+        ARCHIVE_DIR="archive/benchmark_${TIMESTAMP}"
+        mkdir -p "$ARCHIVE_DIR"
+        
+        # Copy current results to archive
+        cp results/consolidated-results.json "$ARCHIVE_DIR/" 2>/dev/null || true
+        cp results/consolidated-report.md "$ARCHIVE_DIR/" 2>/dev/null || true
+        
+        # Create archive index if it doesn't exist
+        if [ ! -f archive/index.json ]; then
+          echo '{"archives": []}' > archive/index.json
+        fi
+        
+        # Update archive index
+        node -e "
+          const fs = require('fs');
+          const index = JSON.parse(fs.readFileSync('archive/index.json', 'utf8'));
+          index.archives.push({
+            timestamp: new Date().toISOString(),
+            directory: 'benchmark_${TIMESTAMP}',
+            commit: process.env.GITHUB_SHA
+          });
+          // Keep only last 20 archives
+          if (index.archives.length > 20) {
+            index.archives = index.archives.slice(-20);
+          }
+          fs.writeFileSync('archive/index.json', JSON.stringify(index, null, 2));
+        "
+        
+        echo "Archived results to $ARCHIVE_DIR"
+      env:
+        GITHUB_SHA: ${{ github.sha }}
 
   deploy-pages:
     needs: generate-report

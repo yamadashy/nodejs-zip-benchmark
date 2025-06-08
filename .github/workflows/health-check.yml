@@ -1,0 +1,156 @@
+name: Benchmark Health Check
+
+on:
+  schedule:
+    # Run daily at 6 AM UTC to check if benchmark is healthy
+    - cron: '0 6 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  health-check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: npm ci
+      
+    - name: Run health check
+      id: health_check
+      run: |
+        echo "Running benchmark health check..."
+        
+        # Check if all required files exist
+        MISSING_FILES=()
+        
+        if [ ! -f benchmark/index.js ]; then
+          MISSING_FILES+=("benchmark/index.js")
+        fi
+        
+        if [ ! -f scripts/generate-report.js ]; then
+          MISSING_FILES+=("scripts/generate-report.js")
+        fi
+        
+        if [ ! -f scripts/update-readme.js ]; then
+          MISSING_FILES+=("scripts/update-readme.js")
+        fi
+        
+        if [ ${#MISSING_FILES[@]} -gt 0 ]; then
+          echo "missing_files=${MISSING_FILES[*]}" >> $GITHUB_OUTPUT
+          echo "health_status=unhealthy" >> $GITHUB_OUTPUT
+          exit 1
+        fi
+        
+        # Try a quick benchmark run
+        mkdir -p test-data results
+        timeout 5m npm run benchmark -- --iterations=1 2>&1 | tee health_check.log
+        
+        if [ $? -eq 0 ] && [ -f results/latest.json ]; then
+          echo "health_status=healthy" >> $GITHUB_OUTPUT
+          echo "✅ Benchmark health check passed"
+        else
+          echo "health_status=unhealthy" >> $GITHUB_OUTPUT
+          echo "❌ Benchmark health check failed"
+          echo "benchmark_error=$(cat health_check.log | tail -10)" >> $GITHUB_OUTPUT
+          exit 1
+        fi
+      continue-on-error: true
+      
+    - name: Create issue on failure
+      if: failure()
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const { health_status, missing_files, benchmark_error } = ${{ toJson(steps.health_check.outputs) }};
+          
+          let title = '🚨 Benchmark Health Check Failed';
+          let body = '## Benchmark Health Check Failure\n\n';
+          body += `**Status**: ${health_status || 'Unknown'}\n`;
+          body += `**Date**: ${new Date().toISOString()}\n\n`;
+          
+          if (missing_files) {
+            body += '### Missing Files\n\n';
+            missing_files.split(' ').forEach(file => {
+              body += `- \`${file}\`\n`;
+            });
+            body += '\n';
+          }
+          
+          if (benchmark_error) {
+            body += '### Benchmark Error\n\n```\n';
+            body += benchmark_error;
+            body += '\n```\n\n';
+          }
+          
+          body += '### Action Required\n\n';
+          body += 'The benchmark system requires attention. Please check the workflow logs and fix any issues.\n\n';
+          body += `**Workflow Run**: ${context.payload.repository.html_url}/actions/runs/${context.runId}\n`;
+          
+          // Check if issue already exists
+          const issues = await github.rest.issues.listForRepo({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            labels: 'benchmark-health',
+            state: 'open'
+          });
+          
+          if (issues.data.length === 0) {
+            // Create new issue
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: title,
+              body: body,
+              labels: ['benchmark-health', 'bug']
+            });
+          } else {
+            // Update existing issue
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issues.data[0].number,
+              body: `## New Health Check Failure\n\n${body}`
+            });
+          }
+          
+    - name: Close health check issues on success
+      if: success()
+      uses: actions/github-script@v7
+      with:
+        script: |
+          // Close any open health check issues
+          const issues = await github.rest.issues.listForRepo({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            labels: 'benchmark-health',
+            state: 'open'
+          });
+          
+          for (const issue of issues.data) {
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issue.number,
+              body: '✅ Benchmark health check is now passing. Closing this issue.'
+            });
+            
+            await github.rest.issues.update({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issue.number,
+              state: 'closed'
+            });
+          }

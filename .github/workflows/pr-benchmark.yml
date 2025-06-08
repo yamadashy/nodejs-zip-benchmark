@@ -1,0 +1,117 @@
+name: PR Benchmark Test
+
+on:
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'benchmark/**'
+      - 'scripts/**'
+      - 'package.json'
+      - '.github/workflows/**'
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  quick-benchmark:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: npm ci
+      
+    - name: Create required directories
+      run: mkdir -p test-data results
+      
+    - name: Run quick benchmark
+      run: |
+        echo "Running quick benchmark for PR validation..."
+        timeout 10m npm run benchmark -- --iterations=2 || {
+          echo "Quick benchmark failed or timed out"
+          exit 1
+        }
+        
+        # Verify results
+        if [ -f results/latest.json ]; then
+          echo "✓ Quick benchmark completed successfully"
+        else
+          echo "Error: Benchmark results not generated"
+          exit 1
+        fi
+      env:
+        NODE_ENV: production
+        
+    - name: Generate quick report
+      run: |
+        if [ -f results/latest.json ]; then
+          node -e "
+            const fs = require('fs');
+            const results = JSON.parse(fs.readFileSync('results/latest.json', 'utf8'));
+            
+            let report = '## 🧪 Quick Benchmark Results (PR Validation)\\n\\n';
+            report += '> **Note**: This is a quick validation run with limited iterations.\\n';
+            report += '> Full benchmark results will be available after merge.\\n\\n';
+            
+            // Show basic performance info for each library
+            if (results.results) {
+              const libraries = Object.keys(results.results);
+              report += '### Libraries Tested\\n\\n';
+              libraries.forEach(lib => {
+                const libResults = results.results[lib];
+                report += \`- **\${lib}**: \`;
+                
+                const operations = [];
+                if (libResults.create) operations.push('Create ✅');
+                if (libResults.extract) operations.push('Extract ✅');
+                report += operations.join(', ') + '\\n';
+              });
+              
+              report += '\\n### Quick Performance Check\\n\\n';
+              report += 'All libraries executed successfully. Detailed performance comparison will be available in the full benchmark after merge.\\n';
+            }
+            
+            report += '\\n---\\n';
+            report += \`*Quick test completed at \${new Date().toISOString()}*\\n\`;
+            
+            fs.writeFileSync('pr-report.md', report);
+          "
+        fi
+        
+    - name: Comment PR with quick results
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const fs = require('fs');
+          
+          let comment = '## 🧪 Quick Benchmark Test Results\n\n';
+          
+          try {
+            if (fs.existsSync('pr-report.md')) {
+              const report = fs.readFileSync('pr-report.md', 'utf8');
+              comment += report;
+            } else {
+              comment += '✅ Quick benchmark validation passed!\n\n';
+              comment += 'All ZIP libraries were successfully tested with basic functionality.\n';
+              comment += 'Full performance benchmark will run after merge to main branch.\n';
+            }
+          } catch (error) {
+            comment += `❌ Error generating quick report: ${error.message}\n`;
+          }
+          
+          github.rest.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: comment
+          });

@@ -1,0 +1,209 @@
+name: Performance Regression Check
+
+on:
+  schedule:
+    # Run weekly on Wednesdays at 3 AM UTC
+    - cron: '0 3 * * 3'
+  workflow_dispatch:
+    inputs:
+      baseline_days:
+        description: 'Days to look back for baseline comparison'
+        required: false
+        default: '7'
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  regression-check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: npm ci
+      
+    - name: Run current benchmark
+      run: |
+        mkdir -p test-data results
+        npm run benchmark -- --iterations=10
+        cp results/latest.json results/current-benchmark.json
+        
+    - name: Download historical results
+      run: |
+        # This would typically fetch from a storage service or previous runs
+        # For now, we'll simulate with existing results
+        echo "Checking for historical results..."
+        
+        if [ -f archive/index.json ]; then
+          echo "Found historical results archive"
+        else
+          echo "No historical results found, creating baseline"
+          mkdir -p archive
+          echo '{"archives": []}' > archive/index.json
+        fi
+        
+    - name: Performance regression analysis
+      id: regression_check
+      run: |
+        node -e "
+          const fs = require('fs');
+          
+          // Load current results
+          const current = JSON.parse(fs.readFileSync('results/current-benchmark.json', 'utf8'));
+          
+          // Simple regression check (in a real scenario, you'd compare with historical data)
+          let regressions = [];
+          let improvements = [];
+          
+          // Check for obvious performance issues
+          if (current.results) {
+            Object.keys(current.results).forEach(library => {
+              const libResults = current.results[library];
+              
+              // Check for unusually slow performance (simple threshold check)
+              ['create', 'extract'].forEach(operation => {
+                if (libResults[operation]) {
+                  ['small', 'medium', 'large'].forEach(size => {
+                    if (libResults[operation][size]) {
+                      const avgTime = libResults[operation][size].avgTime;
+                      
+                      // Simple threshold-based regression detection
+                      let threshold;
+                      switch(size) {
+                        case 'small': threshold = 100; break;  // 100ms
+                        case 'medium': threshold = 1000; break; // 1s
+                        case 'large': threshold = 10000; break; // 10s
+                      }
+                      
+                      if (avgTime > threshold) {
+                        regressions.push({
+                          library,
+                          operation,
+                          size,
+                          avgTime,
+                          threshold,
+                          severity: avgTime > threshold * 2 ? 'high' : 'medium'
+                        });
+                      }
+                    }
+                  });
+                }
+              });
+            });
+          }
+          
+          // Generate report
+          let report = {
+            timestamp: new Date().toISOString(),
+            regressions: regressions,
+            improvements: improvements,
+            status: regressions.length > 0 ? 'regression_detected' : 'healthy'
+          };
+          
+          fs.writeFileSync('regression-report.json', JSON.stringify(report, null, 2));
+          
+          // Set outputs
+          console.log('regression_count=' + regressions.length);
+          console.log('status=' + report.status);
+          
+          if (regressions.length > 0) {
+            console.log('High severity regressions:', regressions.filter(r => r.severity === 'high').length);
+          }
+        " | tee regression_output.log
+        
+        # Extract outputs
+        REGRESSION_COUNT=$(grep "regression_count=" regression_output.log | cut -d'=' -f2)
+        STATUS=$(grep "status=" regression_output.log | cut -d'=' -f2)
+        
+        echo "regression_count=$REGRESSION_COUNT" >> $GITHUB_OUTPUT
+        echo "status=$STATUS" >> $GITHUB_OUTPUT
+        
+    - name: Create regression issue
+      if: steps.regression_check.outputs.status == 'regression_detected'
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const fs = require('fs');
+          const report = JSON.parse(fs.readFileSync('regression-report.json', 'utf8'));
+          
+          let title = '🐌 Performance Regression Detected';
+          let body = '## Performance Regression Report\n\n';
+          body += `**Detection Date**: ${report.timestamp}\n`;
+          body += `**Regressions Found**: ${report.regressions.length}\n\n`;
+          
+          if (report.regressions.length > 0) {
+            body += '### Detected Regressions\n\n';
+            
+            const highSeverity = report.regressions.filter(r => r.severity === 'high');
+            const mediumSeverity = report.regressions.filter(r => r.severity === 'medium');
+            
+            if (highSeverity.length > 0) {
+              body += '#### 🚨 High Severity\n\n';
+              highSeverity.forEach(reg => {
+                body += `- **${reg.library}** (${reg.operation} ${reg.size}): ${reg.avgTime}ms (threshold: ${reg.threshold}ms)\n`;
+              });
+              body += '\n';
+            }
+            
+            if (mediumSeverity.length > 0) {
+              body += '#### ⚠️ Medium Severity\n\n';
+              mediumSeverity.forEach(reg => {
+                body += `- **${reg.library}** (${reg.operation} ${reg.size}): ${reg.avgTime}ms (threshold: ${reg.threshold}ms)\n`;
+              });
+              body += '\n';
+            }
+          }
+          
+          body += '### Recommended Actions\n\n';
+          body += '1. Review recent changes that might affect performance\n';
+          body += '2. Run detailed profiling on affected libraries\n';
+          body += '3. Compare with historical benchmarks\n';
+          body += '4. Consider if changes in test environment are affecting results\n\n';
+          
+          body += `**Workflow Run**: ${context.payload.repository.html_url}/actions/runs/${context.runId}\n`;
+          
+          // Check if regression issue already exists
+          const issues = await github.rest.issues.listForRepo({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            labels: 'performance-regression',
+            state: 'open'
+          });
+          
+          if (issues.data.length === 0) {
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: title,
+              body: body,
+              labels: ['performance-regression', 'bug', 'priority-high']
+            });
+          } else {
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issues.data[0].number,
+              body: `## New Regression Detection\n\n${body}`
+            });
+          }
+          
+    - name: Upload regression report
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: regression-report
+        path: |
+          regression-report.json
+          results/current-benchmark.json
+        retention-days: 30
