@@ -1,0 +1,1502 @@
+{
+  "timestamp": "2025-06-08T11:47:55.198Z",
+  "nodeVersions": {
+    "18": {
+      "timestamp": "2025-06-08T11:47:10.914Z",
+      "systemInfo": {
+        "nodeVersion": "v20.19.0",
+        "platform": "linux",
+        "arch": "x64",
+        "cpus": 2,
+        "totalMemory": "8GB",
+        "hostname": "codespaces-baf695"
+      },
+      "results": {
+        "small": {
+          "adm-zip": {
+            "create": {
+              "avg": 4.090583333333332,
+              "min": 0.9046799999999848,
+              "max": 6.493102000000022,
+              "memory": 1309.3333333333333,
+              "iterations": 3
+            },
+            "extract": {
+              "avg": 1.5083896666666685,
+              "min": 0.7228700000000003,
+              "max": 3.0311790000000087,
+              "memory": 0,
+              "iterations": 3
+            }
+          },
+          "yauzl": {
+            "extract": {
+              "avg": 2.9700189999999984,
+              "min": 1.1061660000000302,
+              "max": 6.109968999999978,
+              "memory": 0,
+              "iterations": 3
+            }
+          },
+          "yazl": {
+            "create": {
+              "avg": 2.337591333333345,
+              "min": 1.4747130000000084,
+              "max": 3.9250880000000166,
+              "memory": 2514.6666666666665,
+              "iterations": 3
+            }
+          },
+          "node-stream-zip": {
+            "extract": {
+              "avg": 2.3744036666666943,
+              "min": 1.3414360000000443,
+              "max": 4.305997000000048,
+              "memory": 0,
+              "iterations": 3
+            }
+          },
+          "jszip": {
+            "create": {
+              "avg": 2.016367999999981,
+              "min": 0.9096889999999576,
+              "max": 3.8903909999999655,
+              "memory": 832,
+              "iterations": 3
+            },
+            "extract": {
+              "avg": 3.1242799999999797,
+              "min": 0.9129049999999665,
+              "max": 6.735414999999989,
+              "memory": 0,
+              "iterations": 3
+            }
+          },
+          "fflate": {
+            "create": {
+              "avg": 2.7695229999999924,
+              "min": 1.8221790000000055,
+              "max": 3.2829189999999926,
+              "memory": 832,
+              "iterations": 3
+            },
+            "extract": {
+              "avg": 0.7202236666666787,
+              "min": 0.2550449999999955,
+              "max": 1.6320570000000316,
+              "memory": 0,
+              "iterations": 3
+            }
+          }
+        },
+        "medium": {
+          "adm-zip": {
+            "create": {
+              "avg": 29.749725999999992,
+              "min": 28.792596000000003,
+              "max": 30.79377199999999,
+              "memory": 832,
+              "iterations": 3
+            },
+            "extract": {
+              "avg": 9.86015899999999,
+              "min": 7.814238999999986,
+              "max": 11.137924999999996,
+              "memory": 0,
+              "iterations": 3
+            }
+          },
+          "yauzl": {
+            "extract": {
+              "avg": 18.657405666666666,
+              "min": 14.136713000000043,
+              "max": 22.558816999999976,
+              "memory": 0,
+              "iterations": 3
+            }
+          },
+          "yazl": {
+            "create": {
+              "avg": 38.11732466666668,
+              "min": 36.74404300000003,
+              "max": 40.13573299999996,
+              "memory": 832,
+              "iterations": 3
+            }
+          },
+          "node-stream-zip": {
+            "extract": {
+              "avg": 30.908807000000024,
+              "min": 28.51728300000002,
+              "max": 33.99517900000001,
+              "memory": 0,
+              "iterations": 3
+            }
+          },
+          "jszip": {
+            "create": {
+              "avg": 8.21795533333333,
+              "min": 7.190424000000007,
+              "max": 8.992165999999997,
+              "memory": 832,
+              "iterations": 3
+            },
+            "extract": {
+              "avg": 14.104395999999952,
+              "min": 10.658526999999935,
+              "max": 20.36952199999996,
+              "memory": 0,
+              "iterations": 3
+            }
+          },
+          "fflate": {
+            "create": {
+              "avg": 69.04762466666666,
+              "min": 43.99205400000005,
+              "max": 103.83354699999995,
+              "memory": 832,
+              "iterations": 3
+            },
+            "extract": {
+              "avg": 1.2412876666667216,
+              "min": 1.1294690000000855,
+              "max": 1.4377540000000408,
+              "memory": 0,
+              "iterations": 3
+            }
+          }
+        },
+        "large": {
+          "adm-zip": {
+            "create": {
+              "avg": 397.06213533333334,
+              "min": 294.129776,
+              "max": 551.455457,
+              "memory": 832,
+              "iterations": 3
+            },
+            "extract": {
+              "avg": 69.93623433333339,
+              "min": 54.60660199999984,
+              "max": 87.2437930000001,
+              "memory": 0,
+              "iterations": 3
+            }
+          },
+          "yauzl": {
+            "extract": {
+              "avg": 92.9341500000002,
+              "min": 87.96631000000025,
+              "max": 99.01817500000016,
+              "memory": 0,
+              "iterations": 3
+            }
+          },
+          "yazl": {
+            "create": {
+              "avg": 337.6944736666666,
+              "min": 312.80674299999964,
+              "max": 363.69529599999987,
+              "memory": 832,
+              "iterations": 3
+            }
+          },
+          "node-stream-zip": {
+            "extract": {
+              "avg": 214.61783733333323,
+              "min": 202.02850199999966,
+              "max": 227.44562700000006,
+              "memory": 0,
+              "iterations": 3
+            }
+          },
+          "jszip": {
+            "create": {
+              "avg": 69.22788100000041,
+              "min": 60.50765700000011,
+              "max": 85.6969450000006,
+              "memory": 832,
+              "iterations": 3
+            },
+            "extract": {
+              "avg": 88.38088666666651,
+              "min": 82.11167399999977,
+              "max": 91.86334999999963,
+              "memory": 0,
+              "iterations": 3
+            }
+          },
+          "fflate": {
+            "create": {
+              "avg": 458.2028206666664,
+              "min": 426.5816509999995,
+              "max": 476.949619,
+              "memory": 832,
+              "iterations": 3
+            },
+            "extract": {
+              "avg": 7.069982999999714,
+              "min": 5.099091999999473,
+              "max": 8.858567000000221,
+              "memory": 0,
+              "iterations": 3
+            }
+          }
+        }
+      }
+    },
+    "20": {
+      "timestamp": "2025-06-08T11:47:10.914Z",
+      "systemInfo": {
+        "nodeVersion": "v20.19.0",
+        "platform": "linux",
+        "arch": "x64",
+        "cpus": 2,
+        "totalMemory": "8GB",
+        "hostname": "codespaces-baf695"
+      },
+      "results": {
+        "small": {
+          "adm-zip": {
+            "create": {
+              "avg": 4.090583333333332,
+              "min": 0.9046799999999848,
+              "max": 6.493102000000022,
+              "memory": 1309.3333333333333,
+              "iterations": 3
+            },
+            "extract": {
+              "avg": 1.5083896666666685,
+              "min": 0.7228700000000003,
+              "max": 3.0311790000000087,
+              "memory": 0,
+              "iterations": 3
+            }
+          },
+          "yauzl": {
+            "extract": {
+              "avg": 2.9700189999999984,
+              "min": 1.1061660000000302,
+              "max": 6.109968999999978,
+              "memory": 0,
+              "iterations": 3
+            }
+          },
+          "yazl": {
+            "create": {
+              "avg": 2.337591333333345,
+              "min": 1.4747130000000084,
+              "max": 3.9250880000000166,
+              "memory": 2514.6666666666665,
+              "iterations": 3
+            }
+          },
+          "node-stream-zip": {
+            "extract": {
+              "avg": 2.3744036666666943,
+              "min": 1.3414360000000443,
+              "max": 4.305997000000048,
+              "memory": 0,
+              "iterations": 3
+            }
+          },
+          "jszip": {
+            "create": {
+              "avg": 2.016367999999981,
+              "min": 0.9096889999999576,
+              "max": 3.8903909999999655,
+              "memory": 832,
+              "iterations": 3
+            },
+            "extract": {
+              "avg": 3.1242799999999797,
+              "min": 0.9129049999999665,
+              "max": 6.735414999999989,
+              "memory": 0,
+              "iterations": 3
+            }
+          },
+          "fflate": {
+            "create": {
+              "avg": 2.7695229999999924,
+              "min": 1.8221790000000055,
+              "max": 3.2829189999999926,
+              "memory": 832,
+              "iterations": 3
+            },
+            "extract": {
+              "avg": 0.7202236666666787,
+              "min": 0.2550449999999955,
+              "max": 1.6320570000000316,
+              "memory": 0,
+              "iterations": 3
+            }
+          }
+        },
+        "medium": {
+          "adm-zip": {
+            "create": {
+              "avg": 29.749725999999992,
+              "min": 28.792596000000003,
+              "max": 30.79377199999999,
+              "memory": 832,
+              "iterations": 3
+            },
+            "extract": {
+              "avg": 9.86015899999999,
+              "min": 7.814238999999986,
+              "max": 11.137924999999996,
+              "memory": 0,
+              "iterations": 3
+            }
+          },
+          "yauzl": {
+            "extract": {
+              "avg": 18.657405666666666,
+              "min": 14.136713000000043,
+              "max": 22.558816999999976,
+              "memory": 0,
+              "iterations": 3
+            }
+          },
+          "yazl": {
+            "create": {
+              "avg": 38.11732466666668,
+              "min": 36.74404300000003,
+              "max": 40.13573299999996,
+              "memory": 832,
+              "iterations": 3
+            }
+          },
+          "node-stream-zip": {
+            "extract": {
+              "avg": 30.908807000000024,
+              "min": 28.51728300000002,
+              "max": 33.99517900000001,
+              "memory": 0,
+              "iterations": 3
+            }
+          },
+          "jszip": {
+            "create": {
+              "avg": 8.21795533333333,
+              "min": 7.190424000000007,
+              "max": 8.992165999999997,
+              "memory": 832,
+              "iterations": 3
+            },
+            "extract": {
+              "avg": 14.104395999999952,
+              "min": 10.658526999999935,
+              "max": 20.36952199999996,
+              "memory": 0,
+              "iterations": 3
+            }
+          },
+          "fflate": {
+            "create": {
+              "avg": 69.04762466666666,
+              "min": 43.99205400000005,
+              "max": 103.83354699999995,
+              "memory": 832,
+              "iterations": 3
+            },
+            "extract": {
+              "avg": 1.2412876666667216,
+              "min": 1.1294690000000855,
+              "max": 1.4377540000000408,
+              "memory": 0,
+              "iterations": 3
+            }
+          }
+        },
+        "large": {
+          "adm-zip": {
+            "create": {
+              "avg": 397.06213533333334,
+              "min": 294.129776,
+              "max": 551.455457,
+              "memory": 832,
+              "iterations": 3
+            },
+            "extract": {
+              "avg": 69.93623433333339,
+              "min": 54.60660199999984,
+              "max": 87.2437930000001,
+              "memory": 0,
+              "iterations": 3
+            }
+          },
+          "yauzl": {
+            "extract": {
+              "avg": 92.9341500000002,
+              "min": 87.96631000000025,
+              "max": 99.01817500000016,
+              "memory": 0,
+              "iterations": 3
+            }
+          },
+          "yazl": {
+            "create": {
+              "avg": 337.6944736666666,
+              "min": 312.80674299999964,
+              "max": 363.69529599999987,
+              "memory": 832,
+              "iterations": 3
+            }
+          },
+          "node-stream-zip": {
+            "extract": {
+              "avg": 214.61783733333323,
+              "min": 202.02850199999966,
+              "max": 227.44562700000006,
+              "memory": 0,
+              "iterations": 3
+            }
+          },
+          "jszip": {
+            "create": {
+              "avg": 69.22788100000041,
+              "min": 60.50765700000011,
+              "max": 85.6969450000006,
+              "memory": 832,
+              "iterations": 3
+            },
+            "extract": {
+              "avg": 88.38088666666651,
+              "min": 82.11167399999977,
+              "max": 91.86334999999963,
+              "memory": 0,
+              "iterations": 3
+            }
+          },
+          "fflate": {
+            "create": {
+              "avg": 458.2028206666664,
+              "min": 426.5816509999995,
+              "max": 476.949619,
+              "memory": 832,
+              "iterations": 3
+            },
+            "extract": {
+              "avg": 7.069982999999714,
+              "min": 5.099091999999473,
+              "max": 8.858567000000221,
+              "memory": 0,
+              "iterations": 3
+            }
+          }
+        }
+      }
+    },
+    "22": {
+      "timestamp": "2025-06-08T11:47:10.914Z",
+      "systemInfo": {
+        "nodeVersion": "v20.19.0",
+        "platform": "linux",
+        "arch": "x64",
+        "cpus": 2,
+        "totalMemory": "8GB",
+        "hostname": "codespaces-baf695"
+      },
+      "results": {
+        "small": {
+          "adm-zip": {
+            "create": {
+              "avg": 4.090583333333332,
+              "min": 0.9046799999999848,
+              "max": 6.493102000000022,
+              "memory": 1309.3333333333333,
+              "iterations": 3
+            },
+            "extract": {
+              "avg": 1.5083896666666685,
+              "min": 0.7228700000000003,
+              "max": 3.0311790000000087,
+              "memory": 0,
+              "iterations": 3
+            }
+          },
+          "yauzl": {
+            "extract": {
+              "avg": 2.9700189999999984,
+              "min": 1.1061660000000302,
+              "max": 6.109968999999978,
+              "memory": 0,
+              "iterations": 3
+            }
+          },
+          "yazl": {
+            "create": {
+              "avg": 2.337591333333345,
+              "min": 1.4747130000000084,
+              "max": 3.9250880000000166,
+              "memory": 2514.6666666666665,
+              "iterations": 3
+            }
+          },
+          "node-stream-zip": {
+            "extract": {
+              "avg": 2.3744036666666943,
+              "min": 1.3414360000000443,
+              "max": 4.305997000000048,
+              "memory": 0,
+              "iterations": 3
+            }
+          },
+          "jszip": {
+            "create": {
+              "avg": 2.016367999999981,
+              "min": 0.9096889999999576,
+              "max": 3.8903909999999655,
+              "memory": 832,
+              "iterations": 3
+            },
+            "extract": {
+              "avg": 3.1242799999999797,
+              "min": 0.9129049999999665,
+              "max": 6.735414999999989,
+              "memory": 0,
+              "iterations": 3
+            }
+          },
+          "fflate": {
+            "create": {
+              "avg": 2.7695229999999924,
+              "min": 1.8221790000000055,
+              "max": 3.2829189999999926,
+              "memory": 832,
+              "iterations": 3
+            },
+            "extract": {
+              "avg": 0.7202236666666787,
+              "min": 0.2550449999999955,
+              "max": 1.6320570000000316,
+              "memory": 0,
+              "iterations": 3
+            }
+          }
+        },
+        "medium": {
+          "adm-zip": {
+            "create": {
+              "avg": 29.749725999999992,
+              "min": 28.792596000000003,
+              "max": 30.79377199999999,
+              "memory": 832,
+              "iterations": 3
+            },
+            "extract": {
+              "avg": 9.86015899999999,
+              "min": 7.814238999999986,
+              "max": 11.137924999999996,
+              "memory": 0,
+              "iterations": 3
+            }
+          },
+          "yauzl": {
+            "extract": {
+              "avg": 18.657405666666666,
+              "min": 14.136713000000043,
+              "max": 22.558816999999976,
+              "memory": 0,
+              "iterations": 3
+            }
+          },
+          "yazl": {
+            "create": {
+              "avg": 38.11732466666668,
+              "min": 36.74404300000003,
+              "max": 40.13573299999996,
+              "memory": 832,
+              "iterations": 3
+            }
+          },
+          "node-stream-zip": {
+            "extract": {
+              "avg": 30.908807000000024,
+              "min": 28.51728300000002,
+              "max": 33.99517900000001,
+              "memory": 0,
+              "iterations": 3
+            }
+          },
+          "jszip": {
+            "create": {
+              "avg": 8.21795533333333,
+              "min": 7.190424000000007,
+              "max": 8.992165999999997,
+              "memory": 832,
+              "iterations": 3
+            },
+            "extract": {
+              "avg": 14.104395999999952,
+              "min": 10.658526999999935,
+              "max": 20.36952199999996,
+              "memory": 0,
+              "iterations": 3
+            }
+          },
+          "fflate": {
+            "create": {
+              "avg": 69.04762466666666,
+              "min": 43.99205400000005,
+              "max": 103.83354699999995,
+              "memory": 832,
+              "iterations": 3
+            },
+            "extract": {
+              "avg": 1.2412876666667216,
+              "min": 1.1294690000000855,
+              "max": 1.4377540000000408,
+              "memory": 0,
+              "iterations": 3
+            }
+          }
+        },
+        "large": {
+          "adm-zip": {
+            "create": {
+              "avg": 397.06213533333334,
+              "min": 294.129776,
+              "max": 551.455457,
+              "memory": 832,
+              "iterations": 3
+            },
+            "extract": {
+              "avg": 69.93623433333339,
+              "min": 54.60660199999984,
+              "max": 87.2437930000001,
+              "memory": 0,
+              "iterations": 3
+            }
+          },
+          "yauzl": {
+            "extract": {
+              "avg": 92.9341500000002,
+              "min": 87.96631000000025,
+              "max": 99.01817500000016,
+              "memory": 0,
+              "iterations": 3
+            }
+          },
+          "yazl": {
+            "create": {
+              "avg": 337.6944736666666,
+              "min": 312.80674299999964,
+              "max": 363.69529599999987,
+              "memory": 832,
+              "iterations": 3
+            }
+          },
+          "node-stream-zip": {
+            "extract": {
+              "avg": 214.61783733333323,
+              "min": 202.02850199999966,
+              "max": 227.44562700000006,
+              "memory": 0,
+              "iterations": 3
+            }
+          },
+          "jszip": {
+            "create": {
+              "avg": 69.22788100000041,
+              "min": 60.50765700000011,
+              "max": 85.6969450000006,
+              "memory": 832,
+              "iterations": 3
+            },
+            "extract": {
+              "avg": 88.38088666666651,
+              "min": 82.11167399999977,
+              "max": 91.86334999999963,
+              "memory": 0,
+              "iterations": 3
+            }
+          },
+          "fflate": {
+            "create": {
+              "avg": 458.2028206666664,
+              "min": 426.5816509999995,
+              "max": 476.949619,
+              "memory": 832,
+              "iterations": 3
+            },
+            "extract": {
+              "avg": 7.069982999999714,
+              "min": 5.099091999999473,
+              "max": 8.858567000000221,
+              "memory": 0,
+              "iterations": 3
+            }
+          }
+        }
+      }
+    }
+  },
+  "summary": {
+    "create": {
+      "small": {
+        "adm-zip": {
+          "avgAcrossVersions": 4.090583333333332,
+          "minAcrossVersions": 0.9046799999999848,
+          "maxAcrossVersions": 6.493102000000022,
+          "memoryAvg": 1309.3333333333333,
+          "versionsCount": 3,
+          "versions": [
+            "18",
+            "20",
+            "22"
+          ]
+        },
+        "yazl": {
+          "avgAcrossVersions": 2.337591333333345,
+          "minAcrossVersions": 1.4747130000000084,
+          "maxAcrossVersions": 3.9250880000000166,
+          "memoryAvg": 2514.6666666666665,
+          "versionsCount": 3,
+          "versions": [
+            "18",
+            "20",
+            "22"
+          ]
+        },
+        "jszip": {
+          "avgAcrossVersions": 2.016367999999981,
+          "minAcrossVersions": 0.9096889999999576,
+          "maxAcrossVersions": 3.8903909999999655,
+          "memoryAvg": 832,
+          "versionsCount": 3,
+          "versions": [
+            "18",
+            "20",
+            "22"
+          ]
+        },
+        "fflate": {
+          "avgAcrossVersions": 2.7695229999999924,
+          "minAcrossVersions": 1.8221790000000055,
+          "maxAcrossVersions": 3.2829189999999926,
+          "memoryAvg": 832,
+          "versionsCount": 3,
+          "versions": [
+            "18",
+            "20",
+            "22"
+          ]
+        }
+      },
+      "medium": {
+        "adm-zip": {
+          "avgAcrossVersions": 29.749725999999992,
+          "minAcrossVersions": 28.792596000000003,
+          "maxAcrossVersions": 30.79377199999999,
+          "memoryAvg": 832,
+          "versionsCount": 3,
+          "versions": [
+            "18",
+            "20",
+            "22"
+          ]
+        },
+        "yazl": {
+          "avgAcrossVersions": 38.11732466666668,
+          "minAcrossVersions": 36.74404300000003,
+          "maxAcrossVersions": 40.13573299999996,
+          "memoryAvg": 832,
+          "versionsCount": 3,
+          "versions": [
+            "18",
+            "20",
+            "22"
+          ]
+        },
+        "jszip": {
+          "avgAcrossVersions": 8.21795533333333,
+          "minAcrossVersions": 7.190424000000007,
+          "maxAcrossVersions": 8.992165999999997,
+          "memoryAvg": 832,
+          "versionsCount": 3,
+          "versions": [
+            "18",
+            "20",
+            "22"
+          ]
+        },
+        "fflate": {
+          "avgAcrossVersions": 69.04762466666666,
+          "minAcrossVersions": 43.99205400000005,
+          "maxAcrossVersions": 103.83354699999995,
+          "memoryAvg": 832,
+          "versionsCount": 3,
+          "versions": [
+            "18",
+            "20",
+            "22"
+          ]
+        }
+      },
+      "large": {
+        "adm-zip": {
+          "avgAcrossVersions": 397.06213533333334,
+          "minAcrossVersions": 294.129776,
+          "maxAcrossVersions": 551.455457,
+          "memoryAvg": 832,
+          "versionsCount": 3,
+          "versions": [
+            "18",
+            "20",
+            "22"
+          ]
+        },
+        "yazl": {
+          "avgAcrossVersions": 337.6944736666666,
+          "minAcrossVersions": 312.80674299999964,
+          "maxAcrossVersions": 363.69529599999987,
+          "memoryAvg": 832,
+          "versionsCount": 3,
+          "versions": [
+            "18",
+            "20",
+            "22"
+          ]
+        },
+        "jszip": {
+          "avgAcrossVersions": 69.22788100000041,
+          "minAcrossVersions": 60.50765700000011,
+          "maxAcrossVersions": 85.6969450000006,
+          "memoryAvg": 832,
+          "versionsCount": 3,
+          "versions": [
+            "18",
+            "20",
+            "22"
+          ]
+        },
+        "fflate": {
+          "avgAcrossVersions": 458.2028206666664,
+          "minAcrossVersions": 426.5816509999995,
+          "maxAcrossVersions": 476.949619,
+          "memoryAvg": 832,
+          "versionsCount": 3,
+          "versions": [
+            "18",
+            "20",
+            "22"
+          ]
+        }
+      }
+    },
+    "extract": {
+      "small": {
+        "adm-zip": {
+          "avgAcrossVersions": 1.5083896666666685,
+          "minAcrossVersions": 0.7228700000000003,
+          "maxAcrossVersions": 3.0311790000000087,
+          "memoryAvg": 0,
+          "versionsCount": 3,
+          "versions": [
+            "18",
+            "20",
+            "22"
+          ]
+        },
+        "yauzl": {
+          "avgAcrossVersions": 2.9700189999999984,
+          "minAcrossVersions": 1.1061660000000302,
+          "maxAcrossVersions": 6.109968999999978,
+          "memoryAvg": 0,
+          "versionsCount": 3,
+          "versions": [
+            "18",
+            "20",
+            "22"
+          ]
+        },
+        "node-stream-zip": {
+          "avgAcrossVersions": 2.3744036666666943,
+          "minAcrossVersions": 1.3414360000000443,
+          "maxAcrossVersions": 4.305997000000048,
+          "memoryAvg": 0,
+          "versionsCount": 3,
+          "versions": [
+            "18",
+            "20",
+            "22"
+          ]
+        },
+        "jszip": {
+          "avgAcrossVersions": 3.1242799999999797,
+          "minAcrossVersions": 0.9129049999999665,
+          "maxAcrossVersions": 6.735414999999989,
+          "memoryAvg": 0,
+          "versionsCount": 3,
+          "versions": [
+            "18",
+            "20",
+            "22"
+          ]
+        },
+        "fflate": {
+          "avgAcrossVersions": 0.7202236666666787,
+          "minAcrossVersions": 0.2550449999999955,
+          "maxAcrossVersions": 1.6320570000000316,
+          "memoryAvg": 0,
+          "versionsCount": 3,
+          "versions": [
+            "18",
+            "20",
+            "22"
+          ]
+        }
+      },
+      "medium": {
+        "adm-zip": {
+          "avgAcrossVersions": 9.86015899999999,
+          "minAcrossVersions": 7.814238999999986,
+          "maxAcrossVersions": 11.137924999999996,
+          "memoryAvg": 0,
+          "versionsCount": 3,
+          "versions": [
+            "18",
+            "20",
+            "22"
+          ]
+        },
+        "yauzl": {
+          "avgAcrossVersions": 18.657405666666666,
+          "minAcrossVersions": 14.136713000000043,
+          "maxAcrossVersions": 22.558816999999976,
+          "memoryAvg": 0,
+          "versionsCount": 3,
+          "versions": [
+            "18",
+            "20",
+            "22"
+          ]
+        },
+        "node-stream-zip": {
+          "avgAcrossVersions": 30.908807000000024,
+          "minAcrossVersions": 28.51728300000002,
+          "maxAcrossVersions": 33.99517900000001,
+          "memoryAvg": 0,
+          "versionsCount": 3,
+          "versions": [
+            "18",
+            "20",
+            "22"
+          ]
+        },
+        "jszip": {
+          "avgAcrossVersions": 14.104395999999952,
+          "minAcrossVersions": 10.658526999999935,
+          "maxAcrossVersions": 20.36952199999996,
+          "memoryAvg": 0,
+          "versionsCount": 3,
+          "versions": [
+            "18",
+            "20",
+            "22"
+          ]
+        },
+        "fflate": {
+          "avgAcrossVersions": 1.2412876666667216,
+          "minAcrossVersions": 1.1294690000000855,
+          "maxAcrossVersions": 1.4377540000000408,
+          "memoryAvg": 0,
+          "versionsCount": 3,
+          "versions": [
+            "18",
+            "20",
+            "22"
+          ]
+        }
+      },
+      "large": {
+        "adm-zip": {
+          "avgAcrossVersions": 69.93623433333339,
+          "minAcrossVersions": 54.60660199999984,
+          "maxAcrossVersions": 87.2437930000001,
+          "memoryAvg": 0,
+          "versionsCount": 3,
+          "versions": [
+            "18",
+            "20",
+            "22"
+          ]
+        },
+        "yauzl": {
+          "avgAcrossVersions": 92.9341500000002,
+          "minAcrossVersions": 87.96631000000025,
+          "maxAcrossVersions": 99.01817500000016,
+          "memoryAvg": 0,
+          "versionsCount": 3,
+          "versions": [
+            "18",
+            "20",
+            "22"
+          ]
+        },
+        "node-stream-zip": {
+          "avgAcrossVersions": 214.61783733333323,
+          "minAcrossVersions": 202.02850199999966,
+          "maxAcrossVersions": 227.44562700000006,
+          "memoryAvg": 0,
+          "versionsCount": 3,
+          "versions": [
+            "18",
+            "20",
+            "22"
+          ]
+        },
+        "jszip": {
+          "avgAcrossVersions": 88.38088666666651,
+          "minAcrossVersions": 82.11167399999977,
+          "maxAcrossVersions": 91.86334999999963,
+          "memoryAvg": 0,
+          "versionsCount": 3,
+          "versions": [
+            "18",
+            "20",
+            "22"
+          ]
+        },
+        "fflate": {
+          "avgAcrossVersions": 7.069982999999714,
+          "minAcrossVersions": 5.099091999999473,
+          "maxAcrossVersions": 8.858567000000221,
+          "memoryAvg": 0,
+          "versionsCount": 3,
+          "versions": [
+            "18",
+            "20",
+            "22"
+          ]
+        }
+      }
+    }
+  },
+  "rankings": {
+    "create": {
+      "small": [
+        {
+          "rank": 1,
+          "library": "jszip",
+          "avgTime": 2.016367999999981,
+          "minTime": 0.9096889999999576,
+          "maxTime": 3.8903909999999655,
+          "avgMemory": 832,
+          "versionsCount": 3,
+          "versions": [
+            "18",
+            "20",
+            "22"
+          ],
+          "relativeSpeed": 1
+        },
+        {
+          "rank": 2,
+          "library": "yazl",
+          "avgTime": 2.337591333333345,
+          "minTime": 1.4747130000000084,
+          "maxTime": 3.9250880000000166,
+          "avgMemory": 2514.6666666666665,
+          "versionsCount": 3,
+          "versions": [
+            "18",
+            "20",
+            "22"
+          ],
+          "relativeSpeed": 0.8625836224010516
+        },
+        {
+          "rank": 3,
+          "library": "fflate",
+          "avgTime": 2.7695229999999924,
+          "minTime": 1.8221790000000055,
+          "maxTime": 3.2829189999999926,
+          "avgMemory": 832,
+          "versionsCount": 3,
+          "versions": [
+            "18",
+            "20",
+            "22"
+          ],
+          "relativeSpeed": 0.7280560587509063
+        },
+        {
+          "rank": 4,
+          "library": "adm-zip",
+          "avgTime": 4.090583333333332,
+          "minTime": 0.9046799999999848,
+          "maxTime": 6.493102000000022,
+          "avgMemory": 1309.3333333333333,
+          "versionsCount": 3,
+          "versions": [
+            "18",
+            "20",
+            "22"
+          ],
+          "relativeSpeed": 0.492929207325764
+        }
+      ],
+      "medium": [
+        {
+          "rank": 1,
+          "library": "jszip",
+          "avgTime": 8.21795533333333,
+          "minTime": 7.190424000000007,
+          "maxTime": 8.992165999999997,
+          "avgMemory": 832,
+          "versionsCount": 3,
+          "versions": [
+            "18",
+            "20",
+            "22"
+          ],
+          "relativeSpeed": 1
+        },
+        {
+          "rank": 2,
+          "library": "adm-zip",
+          "avgTime": 29.749725999999992,
+          "minTime": 28.792596000000003,
+          "maxTime": 30.79377199999999,
+          "avgMemory": 832,
+          "versionsCount": 3,
+          "versions": [
+            "18",
+            "20",
+            "22"
+          ],
+          "relativeSpeed": 0.2762363368769626
+        },
+        {
+          "rank": 3,
+          "library": "yazl",
+          "avgTime": 38.11732466666668,
+          "minTime": 36.74404300000003,
+          "maxTime": 40.13573299999996,
+          "avgMemory": 832,
+          "versionsCount": 3,
+          "versions": [
+            "18",
+            "20",
+            "22"
+          ],
+          "relativeSpeed": 0.21559633067637277
+        },
+        {
+          "rank": 4,
+          "library": "fflate",
+          "avgTime": 69.04762466666666,
+          "minTime": 43.99205400000005,
+          "maxTime": 103.83354699999995,
+          "avgMemory": 832,
+          "versionsCount": 3,
+          "versions": [
+            "18",
+            "20",
+            "22"
+          ],
+          "relativeSpeed": 0.11901865376261987
+        }
+      ],
+      "large": [
+        {
+          "rank": 1,
+          "library": "jszip",
+          "avgTime": 69.22788100000041,
+          "minTime": 60.50765700000011,
+          "maxTime": 85.6969450000006,
+          "avgMemory": 832,
+          "versionsCount": 3,
+          "versions": [
+            "18",
+            "20",
+            "22"
+          ],
+          "relativeSpeed": 1
+        },
+        {
+          "rank": 2,
+          "library": "yazl",
+          "avgTime": 337.6944736666666,
+          "minTime": 312.80674299999964,
+          "maxTime": 363.69529599999987,
+          "avgMemory": 832,
+          "versionsCount": 3,
+          "versions": [
+            "18",
+            "20",
+            "22"
+          ],
+          "relativeSpeed": 0.2050015217848494
+        },
+        {
+          "rank": 3,
+          "library": "adm-zip",
+          "avgTime": 397.06213533333334,
+          "minTime": 294.129776,
+          "maxTime": 551.455457,
+          "avgMemory": 832,
+          "versionsCount": 3,
+          "versions": [
+            "18",
+            "20",
+            "22"
+          ],
+          "relativeSpeed": 0.174350246068877
+        },
+        {
+          "rank": 4,
+          "library": "fflate",
+          "avgTime": 458.2028206666664,
+          "minTime": 426.5816509999995,
+          "maxTime": 476.949619,
+          "avgMemory": 832,
+          "versionsCount": 3,
+          "versions": [
+            "18",
+            "20",
+            "22"
+          ],
+          "relativeSpeed": 0.15108567184129654
+        }
+      ]
+    },
+    "extract": {
+      "small": [
+        {
+          "rank": 1,
+          "library": "fflate",
+          "avgTime": 0.7202236666666787,
+          "minTime": 0.2550449999999955,
+          "maxTime": 1.6320570000000316,
+          "avgMemory": 0,
+          "versionsCount": 3,
+          "versions": [
+            "18",
+            "20",
+            "22"
+          ],
+          "relativeSpeed": 1
+        },
+        {
+          "rank": 2,
+          "library": "adm-zip",
+          "avgTime": 1.5083896666666685,
+          "minTime": 0.7228700000000003,
+          "maxTime": 3.0311790000000087,
+          "avgMemory": 0,
+          "versionsCount": 3,
+          "versions": [
+            "18",
+            "20",
+            "22"
+          ],
+          "relativeSpeed": 0.4774785206917208
+        },
+        {
+          "rank": 3,
+          "library": "node-stream-zip",
+          "avgTime": 2.3744036666666943,
+          "minTime": 1.3414360000000443,
+          "maxTime": 4.305997000000048,
+          "avgMemory": 0,
+          "versionsCount": 3,
+          "versions": [
+            "18",
+            "20",
+            "22"
+          ],
+          "relativeSpeed": 0.3033282321694543
+        },
+        {
+          "rank": 4,
+          "library": "yauzl",
+          "avgTime": 2.9700189999999984,
+          "minTime": 1.1061660000000302,
+          "maxTime": 6.109968999999978,
+          "avgMemory": 0,
+          "versionsCount": 3,
+          "versions": [
+            "18",
+            "20",
+            "22"
+          ],
+          "relativeSpeed": 0.2424979997322169
+        },
+        {
+          "rank": 5,
+          "library": "jszip",
+          "avgTime": 3.1242799999999797,
+          "minTime": 0.9129049999999665,
+          "maxTime": 6.735414999999989,
+          "avgMemory": 0,
+          "versionsCount": 3,
+          "versions": [
+            "18",
+            "20",
+            "22"
+          ],
+          "relativeSpeed": 0.230524686221044
+        }
+      ],
+      "medium": [
+        {
+          "rank": 1,
+          "library": "fflate",
+          "avgTime": 1.2412876666667216,
+          "minTime": 1.1294690000000855,
+          "maxTime": 1.4377540000000408,
+          "avgMemory": 0,
+          "versionsCount": 3,
+          "versions": [
+            "18",
+            "20",
+            "22"
+          ],
+          "relativeSpeed": 1
+        },
+        {
+          "rank": 2,
+          "library": "adm-zip",
+          "avgTime": 9.86015899999999,
+          "minTime": 7.814238999999986,
+          "maxTime": 11.137924999999996,
+          "avgMemory": 0,
+          "versionsCount": 3,
+          "versions": [
+            "18",
+            "20",
+            "22"
+          ],
+          "relativeSpeed": 0.12588921402451247
+        },
+        {
+          "rank": 3,
+          "library": "jszip",
+          "avgTime": 14.104395999999952,
+          "minTime": 10.658526999999935,
+          "maxTime": 20.36952199999996,
+          "avgMemory": 0,
+          "versionsCount": 3,
+          "versions": [
+            "18",
+            "20",
+            "22"
+          ],
+          "relativeSpeed": 0.0880071480314879
+        },
+        {
+          "rank": 4,
+          "library": "yauzl",
+          "avgTime": 18.657405666666666,
+          "minTime": 14.136713000000043,
+          "maxTime": 22.558816999999976,
+          "avgMemory": 0,
+          "versionsCount": 3,
+          "versions": [
+            "18",
+            "20",
+            "22"
+          ],
+          "relativeSpeed": 0.06653056104603049
+        },
+        {
+          "rank": 5,
+          "library": "node-stream-zip",
+          "avgTime": 30.908807000000024,
+          "minTime": 28.51728300000002,
+          "maxTime": 33.99517900000001,
+          "avgMemory": 0,
+          "versionsCount": 3,
+          "versions": [
+            "18",
+            "20",
+            "22"
+          ],
+          "relativeSpeed": 0.0401596757411802
+        }
+      ],
+      "large": [
+        {
+          "rank": 1,
+          "library": "fflate",
+          "avgTime": 7.069982999999714,
+          "minTime": 5.099091999999473,
+          "maxTime": 8.858567000000221,
+          "avgMemory": 0,
+          "versionsCount": 3,
+          "versions": [
+            "18",
+            "20",
+            "22"
+          ],
+          "relativeSpeed": 1
+        },
+        {
+          "rank": 2,
+          "library": "adm-zip",
+          "avgTime": 69.93623433333339,
+          "minTime": 54.60660199999984,
+          "maxTime": 87.2437930000001,
+          "avgMemory": 0,
+          "versionsCount": 3,
+          "versions": [
+            "18",
+            "20",
+            "22"
+          ],
+          "relativeSpeed": 0.10109184555608794
+        },
+        {
+          "rank": 3,
+          "library": "jszip",
+          "avgTime": 88.38088666666651,
+          "minTime": 82.11167399999977,
+          "maxTime": 91.86334999999963,
+          "avgMemory": 0,
+          "versionsCount": 3,
+          "versions": [
+            "18",
+            "20",
+            "22"
+          ],
+          "relativeSpeed": 0.0799944791984782
+        },
+        {
+          "rank": 4,
+          "library": "yauzl",
+          "avgTime": 92.9341500000002,
+          "minTime": 87.96631000000025,
+          "maxTime": 99.01817500000016,
+          "avgMemory": 0,
+          "versionsCount": 3,
+          "versions": [
+            "18",
+            "20",
+            "22"
+          ],
+          "relativeSpeed": 0.07607518872233403
+        },
+        {
+          "rank": 5,
+          "library": "node-stream-zip",
+          "avgTime": 214.61783733333323,
+          "minTime": 202.02850199999966,
+          "maxTime": 227.44562700000006,
+          "avgMemory": 0,
+          "versionsCount": 3,
+          "versions": [
+            "18",
+            "20",
+            "22"
+          ],
+          "relativeSpeed": 0.03294219664052893
+        }
+      ]
+    }
+  }
+}

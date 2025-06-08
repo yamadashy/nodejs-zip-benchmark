@@ -1,0 +1,36 @@
+{
+  "name": "nodejs-zip-benchmark",
+  "version": "1.0.0",
+  "description": "Performance benchmark comparison of Node.js ZIP libraries",
+  "main": "benchmark/index.js",
+  "scripts": {
+    "benchmark": "node benchmark/index.js",
+    "test": "node benchmark/index.js --iterations=3",
+    "generate-report": "node scripts/generate-report.js",
+    "compare-performance": "node scripts/compare-performance.js",
+    "update-readme": "node scripts/update-readme.js"
+  },
+  "dependencies": {
+    "adm-zip": "^0.5.10",
+    "yauzl": "^3.0.0",
+    "yazl": "^2.5.1",
+    "node-stream-zip": "^1.15.0",
+    "jszip": "^3.10.1",
+    "fflate": "^0.8.1"
+  },
+  "devDependencies": {
+    "fs-extra": "^11.2.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "keywords": [
+    "zip",
+    "benchmark",
+    "performance",
+    "compression",
+    "nodejs"
+  ],
+  "author": "",
+  "license": "MIT"
+}
