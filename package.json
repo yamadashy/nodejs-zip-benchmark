@@ -10,7 +10,7 @@
     "compare-performance": "node scripts/compare-performance.js"
   },
   "dependencies": {
-    "adm-zip": "^0.5.10",
+    "adm-zip": "^0.6.1",
     "fflate": "^0.8.1",
     "jszip": "^3.10.1",
     "node-stream-zip": "^1.15.0",
