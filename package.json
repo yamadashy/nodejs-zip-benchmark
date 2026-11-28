@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "adm-zip": "^0.6.1",
-    "fflate": "^0.8.1",
+    "fflate": "^0.8.3",
     "jszip": "^3.10.1",
     "node-stream-zip": "^1.15.0",
     "uzip": "^0.20201231.0",
